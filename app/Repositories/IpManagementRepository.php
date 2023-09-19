@@ -21,7 +21,7 @@ class IpManagementRepository extends Repository
     {
         DB::beginTransaction();
             $is_performed = self::model()::updateOrCreate([
-                self::model()::IP => $request->{self::model()::IP},
+                self::model()::ID => $request->{self::model()::ID},
             ], [
                 self::model()::IP => $request->{self::model()::IP},
                 self::model()::LABEL => $request->{self::model()::LABEL},
