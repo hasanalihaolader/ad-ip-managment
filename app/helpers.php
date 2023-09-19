@@ -12,7 +12,7 @@
  */
 
 if (!function_exists('responseData')) {
-    function responseData($status, $code, $message, $data = "", $details = null)
+    function responseData($status, $code, $message, $data = "", $details = null): array
     {
         $response = [
             'status'  => $status,
@@ -29,5 +29,19 @@ if (!function_exists('responseData')) {
         }
 
         return $response;
+    }
+}
+
+if (!function_exists('infoLog')) {
+    function infoLog(string $method, string $message, array $data): void
+    {
+        Log::info($method . '-' . $message, $data);
+    }
+}
+
+if (!function_exists('errorLog')) {
+    function errorLog(string $method, string $message, array $data): void
+    {
+        Log::error($method . '-' . $message, $data);
     }
 }
