@@ -46,6 +46,6 @@ class IpManagementController extends Controller
                 $response
             );
         }
-        return response()->json($response);
+        return response()->json($response, $code);
     }
 }
