@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\IpAddress;
+use App\Services\AuditTrailService;
 
 class IpAddressObserver
 {
@@ -12,9 +13,13 @@ class IpAddressObserver
      * @param  \App\Models\IpAddress  $ipAddress
      * @return void
      */
-    public function saved(IpAddress $ipAddress)
+    public function saved(IpAddress $ipAddress): void
     {
-        infoLog(__METHOD__, 'create', [$ipAddress]);
+        AuditTrailService::track(
+            'saved',
+            IpAddress::class,
+            optional($ipAddress)->toArray()
+        );
     }
 
     /**
@@ -25,7 +30,12 @@ class IpAddressObserver
      */
     public function updated(IpAddress $ipAddress)
     {
-        infoLog(__METHOD__, 'Update', [$ipAddress]);
+        AuditTrailService::track(
+            'update',
+            IpAddress::class,
+            optional($ipAddress)->toArray()
+        );
+        //TODO:have improvement scope during update also fire saved event
     }
 
     /**
