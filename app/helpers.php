@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Log;
+
 /**
  * Response body
  *
@@ -35,13 +37,13 @@ if (!function_exists('responseData')) {
 if (!function_exists('infoLog')) {
     function infoLog(string $method, string $message, array $data): void
     {
-        Log::info($method . '-' . $message, $data);
+        Log::channel('local')->info($method . '-' . $message, $data);
     }
 }
 
 if (!function_exists('errorLog')) {
     function errorLog(string $method, string $message, array $data): void
     {
-        Log::error($method . '-' . $message, $data);
+        Log::channel('local')->error($method . '-' . $message, $data);
     }
 }
