@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ManageIpRequest;
 use App\Repositories\IpManagementRepository;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class IpManagementController extends Controller
