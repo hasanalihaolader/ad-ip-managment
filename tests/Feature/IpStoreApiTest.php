@@ -2,13 +2,12 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class IpStoreApiTest extends TestCase
 {
     /**
-     * A basic test example.
+     * Test store Ip api
      *
      * @return void
      */
@@ -46,7 +45,7 @@ class IpStoreApiTest extends TestCase
     }
 
     /**
-     * A basic test example.
+     * Test Store IP validation for IP
      *
      * @return void
      */
@@ -68,12 +67,10 @@ class IpStoreApiTest extends TestCase
                 "ip" => ["The ip field is required."],
             ]
         ], true);
-
     }
 
-
     /**
-     * A basic test example.
+     * Test Store IP validation for label
      *
      * @return void
      */

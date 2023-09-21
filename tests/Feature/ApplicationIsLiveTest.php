@@ -2,17 +2,16 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ApplicationIsLiveTest extends TestCase
 {
     /**
-     * A basic test example.
+     * Simple test for is application live or not.
      *
      * @return void
      */
-    public function testWelcomePage()
+    public function testWelcomePage(): void
     {
         $response = $this->get('/');
         $response->assertStatus(200);
