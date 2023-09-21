@@ -12,6 +12,14 @@ class IpManagementController extends Controller
     public static function createOrUpdate(ManageIpRequest $request)
     {
         try {
+            infoLog(
+                __METHOD__,
+                'Ip operation request accepted',
+                [
+                    'request' => $request->all(),
+                    'headers' => $request->header()
+                ]
+            );
             $code = Response::HTTP_OK;
             $message = 'No changes were made.';
             $ip_address = IpManagementRepository::createOrUpdate($request);
