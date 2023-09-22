@@ -65,6 +65,7 @@ class AuthenticateService
                 'secret' => config('apigw.service_key'),
                 'routes' => [
                     'api/v1/ip/store',
+                    'api/v1/ip/update/{id}',
                 ],
             ],
         ];
