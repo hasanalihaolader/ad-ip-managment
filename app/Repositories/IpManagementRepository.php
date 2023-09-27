@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\IpAddress;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 class IpManagementRepository extends Repository
@@ -17,6 +18,11 @@ class IpManagementRepository extends Repository
         return IpAddress::class;
     }
 
+    public static function get(): Collection
+    {
+        return self::model()::get();
+    }
+
     public static function createOrUpdate($request)
     {
         DB::beginTransaction();
@@ -28,5 +34,10 @@ class IpManagementRepository extends Repository
             ]);
         DB::commit();
         return $is_performed;
+    }
+
+    public static function getById(int $id)
+    {
+        return self::model()::where(self::model()::ID, $id)->first();
     }
 }

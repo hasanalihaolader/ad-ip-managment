@@ -41,14 +41,14 @@ class ManageIpRequest extends FormRequest
      */
     protected function failedValidation(Validator $validator)
     {
-        $return_response_data = responseData(false, Response::HTTP_BAD_REQUEST, 'Request param validation error.', $validator->errors());
+        $return_response_data = responseData(false, Response::HTTP_UNPROCESSABLE_ENTITY, 'Request param validation error.', $validator->errors());
         errorLog(
             __METHOD__,
-            Response::$statusTexts[Response::HTTP_BAD_REQUEST],
+            Response::$statusTexts[Response::HTTP_UNPROCESSABLE_ENTITY],
             $return_response_data
         );
         throw new HttpResponseException(
-            response()->json($return_response_data, Response::HTTP_BAD_REQUEST)
+            response()->json($return_response_data, Response::HTTP_UNPROCESSABLE_ENTITY)
         );
     }
 }
