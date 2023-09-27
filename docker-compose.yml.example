@@ -1,0 +1,47 @@
+version: "3.7"
+
+networks:
+  ad-network:
+    external: true
+
+volumes:
+  dbdata:
+    driver: local
+
+
+services:
+  app:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    container_name: ad_ip_managment
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./src:/var/www
+      - ./logs/nginx/:/var/log/nginx/
+    tty: true
+    depends_on:
+      - mysql
+    ports:
+      - ${APP_BASE_HTTPS_PORT}:443
+    networks:
+      - ad-network
+
+  mysql:
+    image: mysql:8.0.33
+    container_name: ad_database
+    ports:
+      - ${DB_HOST_BIND_PORT}:3306
+    environment:
+      -  MYSQL_DATABASE=${APP_DB_NAME}
+      -  MYSQL_USER=${APP_DB_USER}
+      -  MYSQL_PASSWORD=${APP_DB_PASSWORD}
+      -  MYSQL_ROOT_PASSWORD=${APP_DB_ROOT_PASSWORD}
+      -  TZ={APP_TIMEZONE}
+    volumes:
+      - dbdata:/var/lib/mysql/
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+      - ./docker/logs/mysql/:/var/log/mysql/
+    networks:
+      - ad-network
