@@ -20,8 +20,10 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth.service'], function () {
     Route::group(['namespace' => 'Api', 'prefix' => 'v1', 'as' => 'api.'], function () {
         Route::group(['prefix' => 'ip', 'as' => 'ip.'], function () {
-            Route::post('/store', [IpManagementController::class, 'createOrUpdate'])->name('createOrUpdate');
-            Route::patch('/update/{id}', [IpManagementController::class, 'createOrUpdate'])->name('createOrUpdate');
+            Route::get('/', [IpManagementController::class, 'get'])->name('list');
+            Route::post('/store', [IpManagementController::class, 'createOrUpdate'])->name('create');
+            Route::patch('/update/{id}', [IpManagementController::class, 'createOrUpdate'])->name('update');
+            Route::get('/{id}', [IpManagementController::class, 'getById'])->name('getById');
         });
     });
 });
