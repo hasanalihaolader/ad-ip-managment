@@ -28,7 +28,7 @@ class ManageIpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'ip' => 'required|max:39|unique:ip_address,ip,' . $this->id,
+            'ip' => 'required|max:39|ip|unique:ip_address,ip,' . $this->id,
             'label' => 'required|max:255',
         ];
     }

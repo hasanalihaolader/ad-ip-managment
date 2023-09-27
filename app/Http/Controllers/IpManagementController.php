@@ -55,6 +55,14 @@ class IpManagementController extends Controller
             ]
         );
         try {
+            infoLog(
+                __METHOD__,
+                'Ip operation request accepted',
+                [
+                    'request' => $request->all(),
+                    'headers' => $request->header()
+                ]
+            );
             $code = Response::HTTP_OK;
             $message = 'No changes were made.';
             $ip_address = IpManagementRepository::createOrUpdate($request);
@@ -126,6 +134,6 @@ class IpManagementController extends Controller
                 $response
             );
         }
-        return response()->json($response);
+        return response()->json($response, $code);
     }
 }
