@@ -18,6 +18,10 @@ class IpStoreApiTest extends TestCase
             [
                 "ip" => "200.168.100.11",
                 "label" => "test"
+            ],
+            [
+                'Service-Id' => 'F67nzek6dbjcnBJqqTri1BWPxX36fpAj',
+                'Service-Key' => 'TMbF54aZx8bA9iGjQGQuXrFThu9ZVx4b',
             ]
         );
         $response->assertStatus(201);
@@ -56,12 +60,16 @@ class IpStoreApiTest extends TestCase
             [
                 "ip" => "",
                 "label" => "test"
+            ],
+            [
+                'Service-Id' => 'F67nzek6dbjcnBJqqTri1BWPxX36fpAj',
+                'Service-Key' => 'TMbF54aZx8bA9iGjQGQuXrFThu9ZVx4b',
             ]
         );
-        $response->assertStatus(400);
+        $response->assertStatus(422);
         $response->assertJson([
             "status" => false,
-            "code" => 400,
+            "code" => 422,
             "message" => "Request param validation error.",
             "data" => [
                 "ip" => ["The ip field is required."],
@@ -81,12 +89,16 @@ class IpStoreApiTest extends TestCase
             [
                 "ip" => "200.168.100.11",
                 "label" => ""
+            ],
+            [
+                'Service-Id' => 'F67nzek6dbjcnBJqqTri1BWPxX36fpAj',
+                'Service-Key' => 'TMbF54aZx8bA9iGjQGQuXrFThu9ZVx4b',
             ]
         );
-        $response->assertStatus(400);
+        $response->assertStatus(422);
         $response->assertJson([
             "status" => false,
-            "code" => 400,
+            "code" => 422,
             "message" => "Request param validation error.",
             "data" => [
                 "label" => ["The label field is required."],

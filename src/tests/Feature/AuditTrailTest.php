@@ -18,6 +18,10 @@ class AuditTrailTest extends TestCase
             [
                 "ip" => "200.168.100.11",
                 "label" => "test"
+            ],
+            [
+                'Service-Id' => 'F67nzek6dbjcnBJqqTri1BWPxX36fpAj',
+                'Service-Key' => 'TMbF54aZx8bA9iGjQGQuXrFThu9ZVx4b',
             ]
         );
         $response->assertStatus(201);
@@ -40,6 +44,10 @@ class AuditTrailTest extends TestCase
             [
                 "ip" => "200.168.100.11",
                 "label" => "test"
+            ],
+            [
+                'Service-Id' => 'F67nzek6dbjcnBJqqTri1BWPxX36fpAj',
+                'Service-Key' => 'TMbF54aZx8bA9iGjQGQuXrFThu9ZVx4b',
             ]
         );
         $id = json_decode($response->getContent(), true)['data']['id'];
@@ -49,6 +57,10 @@ class AuditTrailTest extends TestCase
             [
                 "ip" => "200.168.100.11",
                 "label" => "Done"
+            ],
+            [
+                'Service-Id' => 'F67nzek6dbjcnBJqqTri1BWPxX36fpAj',
+                'Service-Key' => 'TMbF54aZx8bA9iGjQGQuXrFThu9ZVx4b',
             ]
         );
         $update_response->assertStatus(200);
