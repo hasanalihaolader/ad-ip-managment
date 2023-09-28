@@ -1,52 +1,34 @@
-FROM php:7.4-fpm
+FROM ubuntu:22.04
 ARG TIMEZONE="Asia/Dhaka"
-
+ARG BUILD_MODE="dev"
 
 ARG DOMAIN="localhost"
 ARG TIMEOUT="600"
 
 ENV DOMAIN="${DOMAIN}" \
-    TIMEOUT="${TIMEOUT}"
+    TIMEOUT="${TIMEOUT}" \
+    TZ=Asia/Dhaka
 
-RUN echo "${TIMEZONE}" > /etc/timezone \
-    && rm /etc/localtime \
-    && dpkg-reconfigure -f noninteractive tzdata \
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN apt-get update -y \
+    && DEBIAN_FRONTEND="noninteractive" apt-get install -y nginx software-properties-common \
     && apt-get update -y \
-    && apt-get install -y --no-install-recommends gnupg gnupg1 gnupg2 \
-    && echo "deb http://nginx.org/packages/debian/ $(awk -F'=' '/VERSION_CODENAME/ {print $2}' /etc/*release) nginx" >> /etc/apt/sources.list \
-    && curl -s -N -L https://nginx.org/keys/nginx_signing.key | apt-key add - \
-    && apt-get update -y \
-    && apt-get upgrade -y \
-    && apt-get install -y --no-install-recommends \
-        zip \
-        ca-certificates \
-        unzip \
-        vim \
-        gettext \
-        libz-dev \
-        libpq-dev \
-        libssl-dev \
-        libzip-dev \
-        zlib1g-dev \
-        libicu-dev \
-        nginx \
-        supervisor \
-        g++ \
-        openssl \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libpng-dev \
-        libldap2-dev \
-        libxml2-dev \
-        libonig-dev \
-    && docker-php-ext-configure intl \
-    && docker-php-ext-install pdo_mysql mbstring zip exif pcntl opcache intl soap \
-    && docker-php-ext-configure gd --prefix=/usr --with-freetype --with-jpeg \
-    && docker-php-ext-install gd \
-    && docker-php-ext-install sockets \
-    && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
-    && docker-php-ext-install ldap \
-    && apt-get purge -y --auto-remove g++ \
+    && apt install -y -q software-properties-common \
+    && add-apt-repository ppa:ondrej/php \
+    && apt install -y php7.4\
+    && apt install -y php7.4-fpm\
+    && apt-get install -y -q --no-install-recommends \
+        gettext\
+        curl \
+        php7.4-common \
+        php7.4-curl \
+        php7.4-zip \
+        php7.4-gd \
+        php7.4-mysql \
+        php7.4-mbstring\
+        php7.4-xml\
     && apt-get -y autoremove \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
@@ -57,7 +39,11 @@ RUN echo "${TIMEZONE}" > /etc/timezone \
     && ln -sf /dev/stderr /var/log/nginx/error.log \
     && . ~/.bashrc
 
+
 WORKDIR /var/www
+
+COPY --chown=www-data:www-data ./src/composer.* /var/www/
+
 RUN composerInstallArgs="--ignore-platform-reqs --no-interaction --no-scripts --no-autoloader --prefer-dist" \
     && export composerInstallArgs \
     && if [ "${BUILD_MODE}" = "prod" ]; then \
@@ -66,11 +52,33 @@ RUN composerInstallArgs="--ignore-platform-reqs --no-interaction --no-scripts --
     ;fi \
     && composer install $composerInstallArgs
 
-COPY --chown=www:www ./src .
+COPY --chown=www-data:www-data ./src .
+
+RUN chown -R www-data:www-data  /var/www  storage\
+    && chmod -R 755 storage bootstrap/cache \
+    && composerDumpAutoloadArgs="-o" \
+    && export composerDumpAutoloadArgs \
+    && if [ "${BUILD_MODE}" = "prod" ]; then \
+        composerDumpAutoloadArgs="$composerDumpAutoloadArgs --classmap-authoritative" \
+        && export composerDumpAutoloadArgs \
+    ;fi \
+    && composer dump-autoload $composerDumpAutoloadArgs \
+    && chown -R www-data:www-data /var/log/nginx \
+    && chown -R www-data:www-data /usr/share/nginx \
+    && chown -R www-data:www-data /etc/nginx \
+    && touch /var/run/nginx.pid \
+    && chown -R www-data:www-data /var/run/nginx.pid \
+    && touch /var/log/php-fpm.log \
+    && chown -R www-data:www-data /var/log/php-fpm.log
+
+
 COPY ./docker/app/nginx/ /etc/nginx/
+RUN envsubst "`env | awk -F = '{printf \" $$%s\", $$1}'`\"" < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf \
+    && rm -f /etc/nginx/conf.d/*.template
 
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN php artisan cache:clear \
+    && php artisan view:cache \
+    && php artisan route:clear
 
-RUN usermod -u 1000 www-data
-WORKDIR /var/www
+# Start PHP-FPM & nginx service
+CMD service php7.4-fpm start && nginx -g "daemon off;"
