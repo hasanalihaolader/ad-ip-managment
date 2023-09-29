@@ -16,7 +16,7 @@ services:
     build:
       context: ./
       dockerfile: docker/Dockerfile
-    container_name: ad_ip_managment
+    container_name: ad_ip_management
     restart: unless-stopped
     working_dir: /var/www/
     volumes:

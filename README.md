@@ -1,5 +1,5 @@
 <center style='font-size:25px'>
-    <b>IP MANAGMENT SOLUATION</b>
+    <b>IP MANAGEMENT SOLUTION</b>
 </center>
 
 ### **🔭Scope:**
@@ -33,7 +33,7 @@ git clone https://github.com/hasanalihaolader/ad-ip-managment.git
 
 <br><b>Enter docker container </b>
 ```bash
- docker exec -u www-data -it ad_ip_managment bash
+ docker exec -u www-data -it ad_ip_management bash
 ```
 
 <br><b>Run following command in docker container </b>
@@ -52,7 +52,7 @@ git clone https://github.com/hasanalihaolader/ad-ip-managment.git
 Make sure to have following dependencies installed <br>
 	- PHP >- 7.4 <br>
  	- MYSQL <br>
-  	- composer <br>
+  	- composer 2<br>
 
 <br><b>Git Clone / Download code</b>
 ```bash
@@ -61,14 +61,14 @@ git clone https://github.com/hasanalihaolader/ad-ip-managment.git
 <br><b>Go to downloaded folder and run following command into this folder</b>
 ```bash
  cp .env.example .env
- cp .env.example .env
+ cp src/.env.example src/.env
 ```
 <br><b>Modify .env to connect database following information</b>
 ```env
 DB_HOST=mysql
 DB_PORT=3306
-DB_DATABASE=ad_ip_managment
-DB_USERNAME=ad_user
+DB_DATABASE=ad_ip_management
+DB_USERNAME=root
 DB_PASSWORD=secret
 ```
 <br><b>Run following command to run application</b>
@@ -81,11 +81,11 @@ php artisan serve --port  4001
 App_URL: https://localhost:4001/
 ```
 
-### **🌱 Database info when you use docker installtion**
+### **🌱 Database info when you use docker installation**
 ```env
 Host: localhost
 Port:33067
-Username: ad_user
+Username: root
 Password: secret
 
 ```
