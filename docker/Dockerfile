@@ -54,7 +54,7 @@ RUN composerInstallArgs="--ignore-platform-reqs --no-interaction --no-scripts --
 
 COPY --chown=www-data:www-data ./src .
 
-RUN chown -R www-data:www-data  /var/www  storage\
+RUN chown -R www-data:www-data  /var/www  storage \
     && chmod -R 755 storage bootstrap/cache \
     && composerDumpAutoloadArgs="-o" \
     && export composerDumpAutoloadArgs \
