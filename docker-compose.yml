@@ -42,6 +42,8 @@ services:
       -  MYSQL_PASSWORD=${APP_DB_PASSWORD}
       -  MYSQL_ROOT_PASSWORD=${APP_DB_ROOT_PASSWORD}
       -  TZ={APP_TIMEZONE}
+    restart: unless-stopped
+    tty: true
     volumes:
       - dbdata:/var/lib/mysql/
       - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
