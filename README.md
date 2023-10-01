@@ -29,22 +29,21 @@ git clone https://github.com/hasanalihaolader/ad-ip-managment.git
  cp .env.example .env
  cp src/.env.example src/.env
  docker-compose build
+ docker-compose up -d
 ```
 
 <br><b>Enter docker container </b>
 ```bash
- docker exec -u www-data -it ad_ip_management bash
+ docker exec -it ad_ip_management bash
 ```
 
 <br><b>Run following command in docker container </b>
 ```bash
+ composer install
  php artisan migrate
  exit
 ```
-<br><b>Get back project root folder and run</b>
-```bash
- docker-compose up -d
-```
+
 <br><b>Check application info below</b>
 
 
@@ -73,12 +72,13 @@ DB_PASSWORD=secret
 ```
 <br><b>Run following command to run application</b>
 ```env
+composer install
 php artisan migrate
 php artisan serve --port  4001
 ```
 ### **🌱 Application info:**
 ```env
-App_URL: https://localhost:4001/
+App_URL: http://localhost:4001/
 ```
 
 ### **🌱 Database info when you use docker installation**
