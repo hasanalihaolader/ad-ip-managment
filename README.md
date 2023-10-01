@@ -37,9 +37,18 @@ git clone https://github.com/hasanalihaolader/ad-ip-managment.git
  docker exec -it ad_ip_management bash
 ```
 
-<br><b>create a database using this following name (Database info when you use docker installation) </b>
+<br><b>create a database using this following name</b>
+### **🌱 Database credentials **
+```env
+	Host: localhost
+	Port:33067
+	Username: root
+	Password: secret
+```
+
+### **🌱 Database name **
 ```bash
- ad_ip_management
+ 	ad_ip_management
 ```
 
 
@@ -53,13 +62,4 @@ git clone https://github.com/hasanalihaolader/ad-ip-managment.git
 ### **🌱 Application info:**
 ```env
 App_URL: http://localhost:4001/
-```
-
-### **🌱 Database info when you use docker installation**
-```env
-Host: localhost
-Port:33067
-Username: root
-Password: secret
-
 ```
