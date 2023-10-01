@@ -36,15 +36,15 @@ git clone https://github.com/hasanalihaolader/ad-ip-managment.git
 <br><b>create a database using this following name</b>
 ### **🌱 Database credentials **
 ```env
-	Host: localhost
-	Port:33067
-	Username: root
-	Password: secret
+Host: localhost
+Port:33067
+Username: root
+Password: secret
 ```
 
 ### **🌱 Database name **
 ```bash
- 	ad_ip_management
+ad_ip_management
 ```
 
 <br><b>Enter docker container </b>
