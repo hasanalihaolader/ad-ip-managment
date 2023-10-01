@@ -32,10 +32,6 @@ git clone https://github.com/hasanalihaolader/ad-ip-managment.git
  docker-compose up -d
 ```
 
-<br><b>Enter docker container </b>
-```bash
- docker exec -it ad_ip_management bash
-```
 
 <br><b>create a database using this following name</b>
 ### **🌱 Database credentials **
@@ -51,6 +47,10 @@ git clone https://github.com/hasanalihaolader/ad-ip-managment.git
  	ad_ip_management
 ```
 
+<br><b>Enter docker container </b>
+```bash
+ docker exec -it ad_ip_management bash
+```
 
 <br><b>Run following command in docker container </b>
 ```bash
